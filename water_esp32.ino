@@ -15,6 +15,17 @@ void loop() {
   delay(10);                      // wait 10 milliseconds
   value = analogRead(SIGNAL_PIN); // read the analog value from sensor
   
+  // just setting a condition to indicate that if water level is very low or tank is about to be empty, turn LED ON.
+  if(value>=800)
+  {
+  
+  digitalWrite (5 ,LOW);
+  }
+  else 
+  {
+  digitalWrite (5 ,HIGH);
+  }
+
   digitalWrite(POWER_PIN, LOW);   // turn the sensor OFF
 
   Serial.print("Water Sensor value: ");
