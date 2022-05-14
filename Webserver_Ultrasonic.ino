@@ -4,6 +4,7 @@
 
 int trigger_pin = 13;
 int echo_pin   = 12;
+#define buzzer 25
 
 #define SOUND_SPEED 0.034
 #define CM_TO_INCH 0.393701
@@ -22,6 +23,7 @@ void setup() {
   Serial.begin(115200);
   pinMode(trigger_pin, OUTPUT);
   pinMode(echo_pin, INPUT);
+  pinMode(buzzer,OUTPUT);
   delay(1000);
 
   WiFi.begin(ssid, password);
@@ -56,6 +58,11 @@ void loop() {
 
   // Convert to inches
   distance_Inch = distance_cm * CM_TO_INCH;
+
+  if (distance_Inch < 2)
+     digitalWrite(buzzer, HIGH);
+  else
+     digitalWrite(buzzer, LOW);
   
   Serial.print("Distance (cm): ");
   Serial.println(distance_cm);
