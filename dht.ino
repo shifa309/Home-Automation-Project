@@ -1,24 +1,32 @@
-#include "DHT.h"
-#define DHT11_apin 2;
+#include <dht.h>
 
-DHT dht;
-
-void setup()
-{
+#define dht_apin 2 // Analog Pin sensor is connected to
+ 
+dht DHT;
+ 
+void setup(){
+ 
   Serial.begin(9600);
-  delay(500);
-  Serialprintln(DHT11 HUMIDITY );
-  delay(1000);
-/* Start the DHT11 Sensor */
-  
-}
-
-void loop()
-{
-  int chk=DHT.read22(DHT11_PIN)
-   Serial.print("Temperature: ");
-  Serial.print(DHT.temperature);
-  Serial.print("Humidity: ");
-  Serial.println(DHT.Humidity);
-  delay(1000);
-}
+  delay(500);//Delay to let system boot
+  Serial.println("DHT11 Humidity & temperature Sensor\n\n");
+  delay(1000);//Wait before accessing Sensor
+ 
+}//end "setup()"
+ 
+void loop(){
+  //Start of Program 
+ 
+    DHT.read11(dht_apin);
+    
+    Serial.print("Current humidity = ");
+    Serial.print(DHT.humidity);
+    Serial.print("%  ");
+    Serial.print("Temperature = ");
+    Serial.print(DHT.temperature); 
+    Serial.println("C  ");
+    
+    delay(2000);//Wait 5 seconds before accessing sensor again.
+ 
+  //Fastest should be once every two seconds.
+ 
+}// end loop(
