@@ -6,6 +6,7 @@ int trigger_pin = 13;
 int echo_pin   = 12;
 
 #define SOUND_SPEED 0.034
+#define CM_TO_INCH 0.393701
 
 // Replace with your network credentials
 const char* ssid = "TRANSWORLD";
@@ -15,6 +16,7 @@ WebServer server(80);
 
 String page = "";
 int distance_cm;
+int distance_Inch;
 
 void setup() {
   Serial.begin(115200);
@@ -33,7 +35,7 @@ void setup() {
   Serial.println(WiFi.localIP());
 
   server.on("/", []() {
-    page = "<head><meta http-equiv=\"refresh\" content=\"3\"></head><center><h1>Ultasonic Distance Monitor</h1><h3>Current distance:</h3> <h4>" + String(distance_cm) + "</h4></center>";
+    page = "<head><meta http-equiv=\"refresh\" content=\"3\"></head><center><h1>Ultasonic Distance Monitor</h1><h3>Current distance(cm):</h3> <h4>" + String(distance_cm) + "</h4> <h3>Current distance(inch):</h3> <h4>" + String(distance_Inch) + "</h4> </center>";
     server.send(200, "text/html", page);
   });
   server.begin();
@@ -49,9 +51,16 @@ void loop() {
   
   long duration = pulseIn(echo_pin, HIGH);
   
+   // Calculate the distance
   distance_cm = duration * SOUND_SPEED/2;
+
+  // Convert to inches
+  distance_Inch = distance_cm * CM_TO_INCH;
+  
   Serial.print("Distance (cm): ");
   Serial.println(distance_cm);
+  Serial.print("Distance (inch): ");
+  Serial.println(distance_Inch);
   server.handleClient();
   delay(1000);
 }
