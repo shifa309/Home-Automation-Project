@@ -17,6 +17,10 @@ float tempC;
 float tempF;
 
 void setup() {
+
+  pinMode (32, OUTPUT);
+  pinMode (33, OUTPUT);
+  
   Serial.begin(115200);
   dht_sensor.begin(); // initialize the DHT sensor
   
@@ -62,6 +66,18 @@ void loop() {
    tempC = dht_sensor.readTemperature();
   // read temperature in Fahrenheit
    tempF = dht_sensor.readTemperature(true);
+
+ //turn Green LED ON if Temperature is above 20°C
+   if(tempC>20)
+     digitalWrite(32, HIGH);
+  else
+     digitalWrite(32,  LOW);
+
+//turn red LED on if Humidity is above 50%
+  if(humi>50)
+     digitalWrite(33, HIGH);
+  else
+    digitalWrite(33,  LOW);
 
   // check whether the reading is successful or not
   if ( isnan(tempC) || isnan(tempF) || isnan(humi)) {    // isnan means not a number
