@@ -47,9 +47,18 @@ void setup() {
 }
 
 void loop() {
+   LDR();
+   
+  Ultrasonic();
 
-  //LDR
-  Serial.println("LIGHT DEPENDENT RESISTOR");
+  hum_temp();
+
+  watersensor();
+}
+
+
+void LDR(){
+Serial.println("LIGHT DEPENDENT RESISTOR");
   int val = analogRead(Light);
   
    if (val<1800)
@@ -64,9 +73,10 @@ void loop() {
   Serial.println(val);
   Serial.println();
   delay(1500);
+}
 
-   
-  //ULTRASONIC
+void Ultrasonic()
+{
   //Clears the trigPin
   Serial.println("ULTRASONIC SENSOR");
   digitalWrite(trigPin, LOW);
@@ -96,10 +106,11 @@ void loop() {
   Serial.println(distanceInch);
   Serial.println();
   delay(1500);
+}
 
-
-  //DHT
-  Serial.println("HUMIDITY & TEMPERATURE SENSOR");
+void hum_temp()
+{
+Serial.println("HUMIDITY & TEMPERATURE SENSOR");
   // read humidity
   float humi  = dht_sensor.readHumidity();
   // read temperature in Celsius
@@ -140,9 +151,10 @@ void loop() {
   }
   // wait a 2 seconds between readings
   delay(1500);
+  }
 
-
-  //waterlevelSensor
+void watersensor()
+{
   Serial.println("WATER LEVEL SENSOR");
   digitalWrite(POWER_PIN, HIGH);  // turn the sensor ON
   delay(10);                      // wait 10 milliseconds
@@ -164,5 +176,5 @@ void loop() {
   Serial.println();
 
   delay(2000);
- 
 }
+ 
