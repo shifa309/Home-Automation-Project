@@ -1,13 +1,13 @@
+//LDR
 #define Light 27
-#define buzzer 25
-const int trigPin = 13;
-const int echoPin = 12;
 
 //ultrasonic
 //define sound speed in cm/uS
 #define SOUND_SPEED 0.034
 #define CM_TO_INCH 0.393701
-
+#define buzzer 25
+const int trigPin = 13;
+const int echoPin = 12;
 long duration;
 float distanceCm;
 float distanceInch;
@@ -16,7 +16,6 @@ float distanceInch;
 #include <DHT.h>
 #define DHT_SENSOR_PIN  15 // ESP32 pin GIOP21 connected to DHT11 sensor
 #define DHT_SENSOR_TYPE DHT11
-
 DHT dht_sensor(DHT_SENSOR_PIN, DHT_SENSOR_TYPE);
 
 //waterlevel
@@ -25,20 +24,24 @@ DHT dht_sensor(DHT_SENSOR_PIN, DHT_SENSOR_TYPE);
 int value = 0; // variable to store the sensor value
 
 void setup() {
-  Serial.begin(9600);
-  delay(5000);
+  Serial.begin(115200);
+  delay(2000);
+  
+  //LDR
   pinMode (26, OUTPUT);
+
+  //ultrasonic
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
   dht_sensor.begin(); // initialize the DHT sensor
   pinMode(buzzer,OUTPUT);
   
-//water level
+  //water level
   pinMode(POWER_PIN, OUTPUT);   // configure D7 pin as an OUTPUT
   digitalWrite(POWER_PIN, LOW); // turn the sensor OFF
   pinMode(5, OUTPUT);
 
-//DHT
+  //DHT
   pinMode (32, OUTPUT);
   pinMode (33, OUTPUT);
 }
@@ -46,10 +49,10 @@ void setup() {
 void loop() {
 
   //LDR
-  
+  Serial.println("LIGHT DEPENDENT RESISTOR");
   int val = analogRead(Light);
   
-   if (val<500)
+   if (val<1800)
    {
     digitalWrite (26, HIGH);
    }
@@ -57,18 +60,20 @@ void loop() {
   {
     digitalWrite (26, LOW);
   }
+  Serial.print("LDR value: ");
   Serial.println(val);
-  delay(500);
+  Serial.println();
+  delay(1500);
 
    
-   
   //ULTRASONIC
-  // Clears the trigPin
+  //Clears the trigPin
+  Serial.println("ULTRASONIC SENSOR");
   digitalWrite(trigPin, LOW);
-  delay(2000);
+  delay(1000);
   // Sets the trigPin on HIGH state for 10 micro seconds
   digitalWrite(trigPin, HIGH);
-  delay(2000);
+  delay(1000);
   digitalWrite(trigPin, LOW);
   
   // Reads the echoPin, returns the sound wave travel time in microseconds
@@ -89,12 +94,12 @@ void loop() {
   Serial.println(distanceCm);
   Serial.print("Distance (inch): ");
   Serial.println(distanceInch);
-  
-  
-  delay(500);
+  Serial.println();
+  delay(1500);
 
 
   //DHT
+  Serial.println("HUMIDITY & TEMPERATURE SENSOR");
   // read humidity
   float humi  = dht_sensor.readHumidity();
   // read temperature in Celsius
@@ -131,13 +136,14 @@ void loop() {
     Serial.print("°C  ~  ");
     Serial.print(tempF);
     Serial.println("°F");
+    Serial.println();
   }
-
   // wait a 2 seconds between readings
-  delay(500);
+  delay(1500);
 
 
   //waterlevelSensor
+  Serial.println("WATER LEVEL SENSOR");
   digitalWrite(POWER_PIN, HIGH);  // turn the sensor ON
   delay(10);                      // wait 10 milliseconds
   value = analogRead(SIGNAL_PIN); // read the analog value from sensor
@@ -154,8 +160,9 @@ void loop() {
 
   Serial.print("Sensor value: ");
   Serial.println(value);
+  Serial.println();
+  Serial.println();
 
-  delay(500);
-  
+  delay(2000);
  
 }
