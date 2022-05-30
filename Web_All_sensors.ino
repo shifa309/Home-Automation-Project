@@ -3,8 +3,8 @@
 #include <WebServer.h>
 
 String page = "";
-const char* ssid = "TRANSWORLD";
-const char* password = "03451122";
+const char* ssid = "Galaxy A31386B";
+const char* password = "shifa123";
 WebServer server(80);
 
 
@@ -66,7 +66,7 @@ void setup() {
             "<h3>Current distance(cm):</h3>"
             "<h4>" + String(distanceCm) + "</h4> "
             "<h3>Current distance(inch):</h3> "
-            "<h4>" + String(distanceInch) + "</h4>";
+            "<h4>" + String(distanceInch) + "</h4>"
             " <br><br>"
             "<h2>Temperature | Humidity Sensor</h2>"
             "<h3> Humidity:</h3>"
